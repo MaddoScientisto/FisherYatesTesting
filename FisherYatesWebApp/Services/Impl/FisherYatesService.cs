@@ -42,7 +42,12 @@ namespace FisherYatesWebApp.Services.Impl
                 array[i] = t;
             }
         }
+        public string Shuffle(string input, int? seed = null)
+        {
+            var array = input.Split('-');
+            Shuffle(array);
+            return string.Join('-', array);
+        }
 
-        
     }
 }

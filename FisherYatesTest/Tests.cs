@@ -1,5 +1,4 @@
-﻿using CsCheck;
-using FisherYatesWebApp.Services;
+﻿using FisherYatesWebApp.Services;
 using FisherYatesWebApp.Services.Impl;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -8,7 +7,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FluentAssertions;
 
 namespace FisherYatesTests
 {
@@ -17,37 +15,35 @@ namespace FisherYatesTests
     {
 
         private IFisherYatesService _service;
-        
+
         [TestInitialize]
         public async Task InitializeTest()
         {
-            _service = new FisherYatesService();            
+            _service = new FisherYatesService();
         }
 
-       
+
         private string[] GetShuffledStrings(string input, int iterations, int? seed = null)
         {
             var results = new string[iterations];
             for (int i = 0; i < iterations; i++)
             {
-                var arrayToTest = input.Split('-');
-                _service.Shuffle(arrayToTest, seed);
-                var finishedResult = string.Join("-", arrayToTest);
-                
-                results[i] = finishedResult;
+                var result = _service.Shuffle(input, seed);
+
+                results[i] = result;
             }
             return results;
         }
 
 
-       
+
 
         /// <summary>
         /// Checks if all the input values are found in the output
         /// </summary>
         [TestMethod]
         public void IsOutputCorrect()
-        {            
+        {
             string[] stringsToTest = new[]
             {
                 "A-B-C-D",
@@ -75,7 +71,7 @@ namespace FisherYatesTests
                 }
             }
         }
-        
+
 
         private bool DoStringsHaveSameElements(string inputA, string inputB)
         {
@@ -86,19 +82,19 @@ namespace FisherYatesTests
 
         }
 
-        
+
 
 
         [TestMethod]
         public void StatisticalTest()
         {
-           
+
             StatTest("2-3-4", 600000, 0.1f, 0.1f);
             StatTest("B-C-D", 600000, 0.1f, 0.1f);
 
             // I'm limiting the tests to only 4 elements because as more elements are added the combinations increase enormously and would take way too long to do the same test
             StatTest("1-2-3-4", 600000, 0.1f, 0.2f);
-            StatTest("A-B-C-D", 600000, 0.1f, 0.2f);            
+            StatTest("A-B-C-D", 600000, 0.1f, 0.2f);
         }
 
 
@@ -118,14 +114,14 @@ namespace FisherYatesTests
             // I find the closest divisible number for the combinations closest to the iterations target
             int newIterations = closestNumber(iterationsTarget, combinations);
 
-            float expectedDistribution = (float) newIterations / (float) combinations;
+            float expectedDistribution = (float)newIterations / (float)combinations;
             float highStatisticalTreshold = expectedDistribution + (expectedDistribution * highErrorMargin);
             float lowStatisticalTreshold = expectedDistribution - (expectedDistribution * lowErrorMargin);
 
-           
+
             var results = GetShuffledStrings(input, newIterations);
 
-            results.Should().NotBeEmpty().And.HaveCount(newIterations);
+            Assert.IsTrue(results.Any() && results.Length >= newIterations);
 
             // I aggregate the results so that I can see how many times a particular result appears
             var groupedResults = from r in results
@@ -158,8 +154,9 @@ namespace FisherYatesTests
             return n2;
         }
 
-     
 
-        
+
+
+
     }
 }
