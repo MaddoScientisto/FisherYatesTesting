@@ -19,7 +19,7 @@ namespace FisherYatesTests
         [TestInitialize]
         public async Task InitializeTest()
         {
-            _service = new FisherYatesService();
+            _service = new DummyFisherYatesService();
         }
 
 
