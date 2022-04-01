@@ -2,6 +2,6 @@
 {
     public interface IFisherYatesService
     {
-        void Shuffle<T>(T[] array, int? seed = null);
+        void Shuffle<T>(T[] array, int? seed = null);       
     }
 }
