@@ -23,7 +23,7 @@ namespace FisherYatesWebApp
             services.AddControllers();
             services.AddMvc();
 
-            services.AddTransient<IFisherYatesService, DummyFisherYatesService>();
+            services.AddTransient<IFisherYatesService, FisherYatesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

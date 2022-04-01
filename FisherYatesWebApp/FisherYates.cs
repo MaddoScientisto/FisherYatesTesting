@@ -24,14 +24,10 @@ namespace FisherYatesWebApp
         [HttpGet("{input}")]
         public async Task<ContentResult> GetFisherYates(string input)
         {           
-            throw new NotImplementedException();
+          
 
             return Content(_fisherYatesService.Shuffle(input));
-
-            var array = input.Split('-');
-            _fisherYatesService.Shuffle(array);
-
-            return Content(string.Join('-', array));
+           
         }
 
 
