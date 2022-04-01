@@ -84,7 +84,9 @@ namespace FisherYatesTests
 
 
 
-
+        /// <summary>
+        /// This tests the randomness of the Fisher-Yates algorithm, it's calibrated for a properly implemented algorithm so a naively implemented algorithm should fail
+        /// </summary>
         [TestMethod]
         public void StatisticalTest()
         {
@@ -115,6 +117,7 @@ namespace FisherYatesTests
             int newIterations = closestNumber(iterationsTarget, combinations);
 
             float expectedDistribution = (float)newIterations / (float)combinations;
+            // I calculate the min and max tresholds for randomness, a properly implemented algorithm should always return results within this range
             float highStatisticalTreshold = expectedDistribution + (expectedDistribution * highErrorMargin);
             float lowStatisticalTreshold = expectedDistribution - (expectedDistribution * lowErrorMargin);
 
